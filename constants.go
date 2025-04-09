@@ -1,4 +1,4 @@
-package models
+package freekassa
 
 const InvoiceBaseURL = `https://pay.fk.money`
 

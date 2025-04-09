@@ -2,13 +2,11 @@ package freekassa
 
 import (
 	"fmt"
-
-	"github.com/zenorachi/freekassa-sdk-go/models"
 )
 
 type IClient interface {
-	GenerateInvoice(p *models.Payment) string
-	GenerateInvoiceSignature(amount int64, currency models.Currency, orderID string) string
+	GenerateInvoice(p *Payment) string
+	GenerateInvoiceSignature(amount int64, currency Currency, orderID string) string
 	GenerateConfirmSignature(amount int64, orderID string) string
 }
 
@@ -26,14 +24,14 @@ func NewClient(cfg *Config) IClient {
 	return &client{cfg: cfg}
 }
 
-func (c *client) GenerateInvoice(p *models.Payment) string {
+func (c *client) GenerateInvoice(p *Payment) string {
 	if p == nil {
 		return ""
 	}
 
 	return fmt.Sprintf(
 		"%s/?m=%d&o=%s&oa=%d&currency=%s&s=%s%s",
-		models.InvoiceBaseURL,
+		InvoiceBaseURL,
 		c.cfg.MerchantID,
 		p.OrderID,
 		p.Amount,
@@ -43,7 +41,7 @@ func (c *client) GenerateInvoice(p *models.Payment) string {
 	)
 }
 
-func (c *client) GenerateInvoiceSignature(amount int64, currency models.Currency, orderID string) string {
+func (c *client) GenerateInvoiceSignature(amount int64, currency Currency, orderID string) string {
 	signData := fmt.Sprintf("%d:%d:%s:%s:%s", c.cfg.MerchantID, amount, c.cfg.SecretKey1, currency.String(), orderID)
 
 	return md5Hash(signData)
