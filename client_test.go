@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/zenorachi/freekassa-sdk-go/models"
 )
 
 func TestClient_GenerateInvoice(t *testing.T) {
@@ -12,7 +11,7 @@ func TestClient_GenerateInvoice(t *testing.T) {
 
 	type args struct {
 		merchantID int64
-		p          *models.Payment
+		p          *Payment
 	}
 
 	tests := []struct {
@@ -24,9 +23,9 @@ func TestClient_GenerateInvoice(t *testing.T) {
 			name: "OK",
 			args: args{
 				merchantID: 1,
-				p: &models.Payment{
+				p: &Payment{
 					OrderID:   "order1",
-					Currency:  models.USD,
+					Currency:  USD,
 					Amount:    10,
 					Signature: "sign1234",
 					Payload: map[string]string{
@@ -66,7 +65,7 @@ func TestClient_GenerateInvoiceSignature(t *testing.T) {
 
 	type args struct {
 		amount     int64
-		currency   models.Currency
+		currency   Currency
 		orderID    string
 		merchantID int64
 		secretKey1 string
@@ -81,7 +80,7 @@ func TestClient_GenerateInvoiceSignature(t *testing.T) {
 			name: "OK",
 			args: args{
 				amount:     10,
-				currency:   models.EUR,
+				currency:   EUR,
 				orderID:    "order1",
 				merchantID: 199,
 				secretKey1: "secretkey1",

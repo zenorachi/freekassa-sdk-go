@@ -1,4 +1,4 @@
-package models
+package freekassa
 
 type Currency string
 
